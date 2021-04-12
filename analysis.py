@@ -147,30 +147,19 @@ class Analysis():
         return data
 
 
-def main(token=None, base_url=None, portfolio_symbols=None, logger=None):
-    api_obj = IEXApi(token=api_token, base_url=base_url, logger=logger)
-
-    anal_obj = Analysis(api=api_obj)
-
-    # works
-    # stats_df = anal_obj.get_symbol_stats(symbols=portfolio_symbols)
-    # sectors = anal_obj.get_sectors()
-    # mom_df = anal_obj.momentum_analysis(stats_df)
-    # astats_df = anal_obj.get_advanced_symbol_stats(symbols=portfolio_symbols)
-
-    # todo
-    df = anal_obj.get_symbol_info(symbols=["NVDA", "PLTR"])
-    print(df)
-
-    # sector_quotes = anal_obj.get_sector_quotes("Semiconductors")
-    # anal_obj.get_peers(symbols=["NVDA", "CRSP"])
-    # stream = anal_obj.stream_data("ATVI")
-    # pdb.set_trace()
-
-    return True
-
-
 def load_env(mode="SandBox", logger=None):
+    """
+    Load environment variables to ensure security of user.
+
+    Args:
+        mode (str, optional): Sandbox or Production mode. Sandbox has scrambled data, production has actual data. Defaults to "SandBox".
+        logger (logging.logger, optional): Logger to use. Defaults to None.
+
+    Returns:
+        str: API Token to be passed to IEX Api object.
+        str: Base URL for API requests, changes depending on Sandbox/Production.
+        str: Portfolio symbols of the user.
+    """
 
     api_token = None
     base_url = None
@@ -194,6 +183,29 @@ def load_env(mode="SandBox", logger=None):
     logger.info("Loaded Portfolio")
 
     return api_token, base_url, portfolio_symbols
+
+
+def main(token=None, base_url=None, portfolio_symbols=None, logger=None):
+    api_obj = IEXApi(token=api_token, base_url=base_url, logger=logger)
+
+    anal_obj = Analysis(api=api_obj)
+
+    # works
+    # stats_df = anal_obj.get_symbol_stats(symbols=portfolio_symbols)
+    # sectors = anal_obj.get_sectors()
+    # mom_df = anal_obj.momentum_analysis(stats_df)
+    # astats_df = anal_obj.get_advanced_symbol_stats(symbols=portfolio_symbols)
+
+    # todo
+    df = anal_obj.get_symbol_info(symbols=["NVDA", "PLTR"])
+    print(df)
+
+    # sector_quotes = anal_obj.get_sector_quotes("Semiconductors")
+    # anal_obj.get_peers(symbols=["NVDA", "CRSP"])
+    # stream = anal_obj.stream_data("ATVI")
+    # pdb.set_trace()
+
+    return True
 
 
 if __name__ == "__main__":
